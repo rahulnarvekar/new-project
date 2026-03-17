@@ -1,0 +1,24 @@
+name: Snowflake OIDC Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-oidc:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Snowflake CLI with OIDC
+        uses: snowflakedb/snowflake-cli-action@v1
+        with:
+          use-oidc: true
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: "GITHUB_USER"
+          SNOWFLAKE_ROLE: "OIDC_ROLE"
+          SNOWFLAKE_WAREHOUSE: "ADMIN_WH"
